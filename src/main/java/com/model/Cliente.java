@@ -14,14 +14,23 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import lombok.Data;
 
 @Entity
 @Table(name="cliente")
 @PrimaryKeyJoinColumn(name = "IdPersona",referencedColumnName = "id")
+
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+property = "idcliente")
+//@JsonIdentityReference(alwaysAsId = true)
+//@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Data
 public class Cliente extends Persona implements Serializable{
 	
 	@Column(name="IdCliente")
@@ -40,9 +49,10 @@ public class Cliente extends Persona implements Serializable{
 	@JoinColumn(name="IdPersona",insertable = false,updatable = false)
 	Persona persona;
 
+	
 	@OneToMany(mappedBy="clientes",fetch = FetchType.LAZY,orphanRemoval = true,cascade = CascadeType.ALL)
-	@Fetch(FetchMode.SELECT)
-	@JsonManagedReference
+	//@JsonManagedReference
+	//@Fetch(FetchMode.SELECT)
 	private List<Cuenta> cuentas= new ArrayList<Cuenta>();
 	
 

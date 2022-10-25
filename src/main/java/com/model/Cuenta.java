@@ -1,5 +1,6 @@
 package com.model;
 
+
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
@@ -16,10 +17,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import lombok.Data;
 
 @Entity
 @Table(name="cuenta")
+@Data
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+property = "idcliente")
 public class Cuenta implements Serializable{
 	
 	@Id
@@ -40,8 +48,9 @@ public class Cuenta implements Serializable{
 	@Column(name="id_cliente",insertable = false,updatable = false)
 	private int idcliente;
 	
+	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,optional = true)
-	@JsonBackReference
+	//@JsonBackReference
 	@JoinColumn(name="id_cliente",referencedColumnName = "IdCliente")
 	private Cliente clientes;
 
@@ -90,7 +99,7 @@ public class Cuenta implements Serializable{
 		return clientes.getNombre();
 	}
 
-	@JsonIgnore
+	@JsonIgnore 
 	public Cliente getClientes() {
 		return clientes;
 	}
