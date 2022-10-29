@@ -12,13 +12,13 @@ public interface ClienteService {
 	public abstract List<Cliente> listarTodos();
 	public abstract List<Cliente> getNombreCliente();
 	Cliente createCliente(Cliente cliente);
-	Cliente updateCliente(Cliente cliente);
+	Cliente updateCliente(int id,Cliente cliente);
 	List<ClienteProjection> getNombreClienteProjection();
 	Cliente findById(int id);
 	Cliente findByIdPersona(int id);
 	List<ClienteCuentaProjection> findCuentasByIdPersona(int id);
 	List<Cliente> findAll();
-	
+	void actualizaCliente(int id,String nombre,String genero,String identificacion,String telefono,int edad,String pass);
 	void delete(int id);
 	
 	

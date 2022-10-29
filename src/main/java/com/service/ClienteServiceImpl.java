@@ -12,7 +12,9 @@ import com.dto.ClienteCuentaProjection;
 import com.dto.ClienteProjection;
 import com.dto.ClientesDTO;
 import com.excepcion.ClienteNotFound;
+
 import com.model.Cliente;
+
 import com.utils.ClienteConverter;
 
 @Service
@@ -49,9 +51,33 @@ public class ClienteServiceImpl implements ClienteService{
 	}
 	
 	@Override
-	public Cliente updateCliente(Cliente cliente) {
+	public Cliente updateCliente(int id,Cliente cliente) {
 		// TODO Auto-generated method stub
-		return clienteRepository.save(cliente);
+		
+		Cliente post = null;
+		try {
+			post = clienteRepository.findByIdPersona(id).orElseThrow(()->new ClienteNotFound("Cliente no encontrado "));
+					
+			
+			post.setNombre(cliente.getNombre());
+			post.setGenero(cliente.getGenero());
+			post.setTelefono(cliente.getTelefono());
+			post.setDireccion(cliente.getDireccion());
+			post.setEdad(cliente.getEdad());
+			post.setEstado(true);
+			post.setPass(cliente.getPass());
+			post.setIdentificacion(cliente.getIdentificacion());
+			
+			
+		} catch (ClienteNotFound e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return clienteRepository.save(post);
+		
+		//return clienteRepository.saveAndFlush(cliente);
 	}
 
 	@Override
@@ -107,6 +133,12 @@ public class ClienteServiceImpl implements ClienteService{
 	public List<Cliente> findAll() {
 		// TODO Auto-generated method stub
 		return clienteRepository.findAll();
+	}
+
+	@Override
+	public void actualizaCliente(int id,String nombre,String genero,String identificacion,String telefono,int edad,String pass) {
+		// TODO Auto-generated method stub
+		clienteRepository.actualizaCliente(id, nombre,genero,identificacion,telefono,edad,pass);
 	}
 
 }

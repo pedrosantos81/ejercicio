@@ -52,6 +52,9 @@ public class EjercicioApplication {
 //		clienteRep.save(c);
 //		clienteRep.flush();
 		
+//		Optional<Cliente> c =clienteRep.findByIdPersona(7);
+//		System.out.println(c.get().getPass());
+		
 //		ModelMapper modelMapper = new ModelMapper();
 //		
 //		ClientesDTO c = new ClientesDTO("juan","M",33,"ife","prueba","4555","2134");

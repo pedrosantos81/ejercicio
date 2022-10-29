@@ -107,26 +107,19 @@ public class ClienteController {
 	
 	@PutMapping("actualizacliente/{id}")
 	public ResponseEntity<ClientesDTO> updateCliente(@PathVariable int id,@RequestBody ClientesDTO clienteDto){
-		Cliente cliente = clienteService.findByIdPersona(id);
+
+		clienteDto.setId(id);
 		
-		Persona person = personaService.findById(cliente.getId());
-			
-		System.out.println("cliente a actualizar: "+cliente.toString());
-		
-//		if(cliente==null) {
-//			return new ResponseEntity<ClientesDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
-//		}else {
-//			//clienteDto.setIdpersona(cliente.getIdpersona());
-			Persona clienteRequest = modelMapper.map(clienteDto, Persona.class);
+		// convert DTO to Entity
+			Cliente clienteRequest = modelMapper.map(clienteDto, Cliente.class);
 			System.out.println(clienteRequest.toString());
-			System.out.println(person.toString());
-//			//clienteService.createPost(clienteRequest);
-//			ClientesDTO postResponse = modelMapper.map(clienteService.updateCliente(clienteRequest), ClientesDTO.class);
-//			
-//			return new ResponseEntity<ClientesDTO>(postResponse,HttpStatus.OK);
-//		}
-		
-		return null;
+			
+			Cliente clientepost = clienteService.updateCliente(id, clienteRequest);
+
+				// entity to DTO
+			ClientesDTO postResponse = modelMapper.map(clienteRequest, ClientesDTO.class);
+
+			return ResponseEntity.ok().body(postResponse);
 		
 	} 
 

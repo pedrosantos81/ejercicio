@@ -3,13 +3,16 @@ package com.dao;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.dto.ClienteCuentaProjection;
 import com.dto.ClienteProjection;
-import com.dto.ClientesDTO;
 import com.model.Cliente;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
@@ -28,6 +31,17 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
 			+ "p.direccion,p.nombre,p.telefono,p.edad,p.identificacion,p.genero,p.id "
 			+ ""
 			+ "FROM Cliente S join Persona p on S.IdPersona=p.id";
+	
+	static String queryUpdaCliente ="update Cliente c set c.nombre=:nombre"
+			+ ", c.genero=:genero"
+			+ ", c.identificacion=:identificacion"
+			+ ", c.direccion=:direcion"
+			+ ", c.telefono=:telefono"
+			+ ", c.edad=:edad"
+			+ ", c.pass=:pass"
+			
+			+ " WHERE c.idpersona = :id";
+	
 	//@Query(value="select c from Cliente c")
 	@Query(queryStr1)
 	public List<Cliente> getNombreCliente();
@@ -51,6 +65,14 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
     @EntityGraph(attributePaths = "cuentas")
     @Override
     List<Cliente> findAll(); 
+    
+    @Modifying
+    @Transactional
+    @Query(value = queryUpdaCliente)
+    void actualizaCliente(@Param("id") int id,@Param("nombre") String nombre,@Param("genero") String genero,@Param("nombre") String identificacion,
+    		@Param("telefono") String telefono,
+    		@Param("edad") int edad,
+    		@Param("pass") String pass);
 	
 	
 }

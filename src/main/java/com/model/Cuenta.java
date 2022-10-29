@@ -1,7 +1,8 @@
 package com.model;
 
-
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,20 +15,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
-import lombok.Data;
 
 @Entity
 @Table(name="cuenta")
-@Data
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
-property = "idcliente")
 public class Cuenta implements Serializable{
 	
 	@Id
@@ -48,11 +42,13 @@ public class Cuenta implements Serializable{
 	@Column(name="id_cliente",insertable = false,updatable = false)
 	private int idcliente;
 	
-	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,optional = true)
-	//@JsonBackReference
 	@JoinColumn(name="id_cliente",referencedColumnName = "IdCliente")
 	private Cliente clientes;
+	
+	@OneToMany(mappedBy="cuentas")
+	private List<Movimientos> lstmovimientos = new ArrayList<Movimientos>();
+	
 
 	public Cuenta() {
 	}
@@ -99,7 +95,7 @@ public class Cuenta implements Serializable{
 		return clientes.getNombre();
 	}
 
-	@JsonIgnore 
+	@JsonIgnore
 	public Cliente getClientes() {
 		return clientes;
 	}
@@ -117,6 +113,27 @@ public class Cuenta implements Serializable{
 		this.idcliente = idcliente;
 	}
 	
+	@Override
+	public String toString() {
+		return "Cuenta [numerocuenta=" + numerocuenta + ", tipocuenta=" + tipocuenta + ", saldoinicial=" + saldoinicial
+				+ ", statuscuenta=" + statuscuenta + ", idcliente=" + idcliente + ", clientes=" + clientes
+				+ ", lstmovimientos=" + lstmovimientos + "]";
+	}
 	
+	public void addMovimiento(Movimientos m) {
+		if(lstmovimientos==null) {
+			lstmovimientos = new ArrayList<Movimientos>();
+		}
+		m.setCuentas(this);
+		lstmovimientos.add(m);
+	}
+
+	public List<Movimientos> getLstmovimientos() {
+		return lstmovimientos;
+	}
+
+	public void setLstmovimientos(List<Movimientos> lstmovimientos) {
+		this.lstmovimientos = lstmovimientos;
+	}
 
 }
