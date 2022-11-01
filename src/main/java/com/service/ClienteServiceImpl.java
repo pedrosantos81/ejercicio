@@ -1,6 +1,7 @@
 package com.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
@@ -118,7 +119,7 @@ public class ClienteServiceImpl implements ClienteService{
 		if(result.isPresent()) {
 			cliente = result.get();
 		}else {
-			throw new ClienteNotFound("No se encontro persona: "+id);
+			throw new NoSuchElementException("No se encontro el id: "+id+" en la bd");
 		}
 		return cliente;
 	}

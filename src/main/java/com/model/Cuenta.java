@@ -117,7 +117,7 @@ public class Cuenta implements Serializable{
 	public String toString() {
 		return "Cuenta [numerocuenta=" + numerocuenta + ", tipocuenta=" + tipocuenta + ", saldoinicial=" + saldoinicial
 				+ ", statuscuenta=" + statuscuenta + ", idcliente=" + idcliente + ", clientes=" + clientes
-				+ ", lstmovimientos=" + lstmovimientos + "]";
+				+ ", lstmovimientos=" + lstmovimientos.size() + "]";
 	}
 	
 	public void addMovimiento(Movimientos m) {
