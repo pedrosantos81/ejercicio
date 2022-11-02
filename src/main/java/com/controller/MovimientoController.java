@@ -26,6 +26,7 @@ import com.model.TipoTransaccion;
 import com.service.ClienteService;
 import com.service.CuentaService;
 import com.service.MovimientoService;
+import com.utils.Utilerias;
 
 @CrossOrigin(origins = "*",maxAge = 3600,allowedHeaders = "*")
 @RestController
@@ -50,7 +51,10 @@ public class MovimientoController {
 	}
 	
 	@GetMapping("movimientos/{id}/{startDate}/{endDate}")
-	public List<ClienteCuentaMovimientosProjection> findAllMovimientos(@PathVariable("id") int id,@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate){
+	public List<ClienteCuentaMovimientosProjection> findAllMovimientos(@PathVariable("id") int id,@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate){
+		
+		System.out.println(startDate.toString()+"-"+endDate.toString());
+		
 		return movimientoService.findMovmientoByClienteyFecha(id, startDate, endDate);
 	}
 	
