@@ -1,5 +1,7 @@
 package com.dto;
 
+import java.util.Date;
+
 import com.model.TipoCuenta;
 import com.model.TipoTransaccion;
 
@@ -41,6 +43,5 @@ public class MovimientoDTO {
 	public void setSaldoaldia(double saldoaldia) {
 		this.saldoaldia = saldoaldia;
 	}
-
 
 }

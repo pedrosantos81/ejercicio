@@ -1,21 +1,27 @@
 package com.controller;
 
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dto.ClienteCuentaMovimientosProjection;
 import com.dto.MovimientoDTO;
-import com.excepcion.ClienteNotFound;
 import com.excepcion.ManejoCuentaExcepcion;
 import com.model.Cliente;
 import com.model.Cuenta;
 import com.model.Movimientos;
-import com.model.TipoCuenta;
 import com.model.TipoTransaccion;
 import com.service.ClienteService;
 import com.service.CuentaService;
@@ -36,6 +42,17 @@ public class MovimientoController {
 	
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	
+	@GetMapping("movimientos")
+	public List<ClienteCuentaMovimientosProjection> findAllMovimientos(){
+		return movimientoService.getMovimientosAll();
+	}
+	
+	@GetMapping("movimientos/{id}/{startDate}/{endDate}")
+	public List<ClienteCuentaMovimientosProjection> findAllMovimientos(@PathVariable("id") int id,@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate){
+		return movimientoService.findMovmientoByClienteyFecha(id, startDate, endDate);
+	}
 	
 	@PostMapping("crearmovimiento")
 	public ResponseEntity<MovimientoDTO> saveMovimiento(@RequestBody MovimientoDTO movimientoDto){
@@ -82,10 +99,7 @@ public class MovimientoController {
 		postResponse.setSaldoaldia(cuenta.getSaldoinicial());
 
 			return new ResponseEntity<MovimientoDTO>(postResponse, HttpStatus.CREATED);
-		
-		
-		
-		//return null;
+
 	}
 	
 
