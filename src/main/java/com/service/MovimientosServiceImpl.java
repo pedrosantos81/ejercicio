@@ -51,7 +51,7 @@ public class MovimientosServiceImpl implements MovimientoService {
 		List<ClienteCuentaMovimientosProjection> lstclienteMovimientos = movimientoRepository.findMovmientoByClienteyFecha(id, startDate, endDate);
 		
 		if(lstclienteMovimientos.isEmpty()) {
-			throw new ManejoCuentaExcepcion("Ni tiene movimientos la cuenta");
+			throw new ManejoCuentaExcepcion("No tiene movimientos la cuenta");
 		}
 		
 		return lstclienteMovimientos;
