@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.dao.MovimientoRepository;
 import com.dto.ClienteCuentaMovimientosProjection;
+import com.excepcion.ManejoCuentaExcepcion;
 import com.model.Movimientos;
 
 @Service
@@ -47,7 +48,13 @@ public class MovimientosServiceImpl implements MovimientoService {
 	public List<ClienteCuentaMovimientosProjection> findMovmientoByClienteyFecha(int id, Date startDate,
 			Date endDate) {
 		// TODO Auto-generated method stub
-		return movimientoRepository.findMovmientoByClienteyFecha(id, startDate, endDate);
+		List<ClienteCuentaMovimientosProjection> lstclienteMovimientos = movimientoRepository.findMovmientoByClienteyFecha(id, startDate, endDate);
+		
+		if(lstclienteMovimientos.isEmpty()) {
+			throw new ManejoCuentaExcepcion("Ni tiene movimientos la cuenta");
+		}
+		
+		return lstclienteMovimientos;
 	}
 
 	
