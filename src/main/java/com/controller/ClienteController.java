@@ -84,24 +84,30 @@ public class ClienteController {
 	}
 	
 	@GetMapping(value="clientes/{id}",produces=MediaType.APPLICATION_JSON_VALUE)
-	public List<ClienteCuentaProjection> getClientesporcampo(@PathVariable("id") int id){
-		
-		List<ClienteCuentaProjection> cliente = clienteService.findCuentasByIdPersona(id);
-		
-		System.out.println("cliente "+cliente);
-		
-		return clienteService.findCuentasByIdPersona(id);
+	public Cliente getClienteandCuentas(@PathVariable int id){
+		return clienteService.findByIdPersonaCliente(id);
 	}
 	
-	@DeleteMapping("{id}")
+//	@GetMapping(value="clientes/{id}",produces=MediaType.APPLICATION_JSON_VALUE)
+//	public List<ClienteCuentaProjection> getClientesporcampo(@PathVariable("id") int id){
+//		
+//		List<ClienteCuentaProjection> cliente = clienteService.findCuentasByIdPersona(id);
+//		
+//		System.out.println("cliente "+cliente);
+//		
+//		return clienteService.findCuentasByIdPersona(id);
+//	}
+	
+	@DeleteMapping("clientes/{id}")
 	public ResponseEntity<Object> deletePost(@PathVariable("id") int id) {
-         Persona cliente = personaService.findById(id);	
+         //Persona cliente = personaService.findById(id);	
+         Cliente cliente = clienteService.findByIdPersona(id);
          
 		if(cliente==null) {
-			return new ResponseEntity<>("Persona"+id+"not found",HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Cliente"+id+"not found",HttpStatus.NOT_FOUND);
 		}else {
-			personaService.deletePersona(id);
-			return new ResponseEntity<>("Persona y cliente deleted",HttpStatus.OK);
+			clienteService.delete(id);
+			return new ResponseEntity<>("Cliente dado de baja",HttpStatus.OK);
 		}
 	}
 	

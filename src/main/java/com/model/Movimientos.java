@@ -42,6 +42,7 @@ public class Movimientos {
 	
 	@ManyToOne
 	@JoinColumn(name="idCuenta",referencedColumnName = "NumeroCuenta")
+	@JsonIgnore
 	Cuenta cuentas;
 
 	public Movimientos() {

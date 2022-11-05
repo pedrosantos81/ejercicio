@@ -106,7 +106,7 @@ public class ClienteServiceImpl implements ClienteService{
 	@Override
 	public void delete(int id) {
 		// TODO Auto-generated method stub
-		clienteRepository.deleteById(id);
+		clienteRepository.delete(id);
 	}
 
 
@@ -119,27 +119,48 @@ public class ClienteServiceImpl implements ClienteService{
 		if(result.isPresent()) {
 			cliente = result.get();
 		}else {
-			throw new NoSuchElementException("No se encontro el id: "+id+" en la bd");
+			throw new NoSuchElementException("No se encontro el cliente: "+id+" para dar de baja en la bd");
 		}
 		return cliente;
 	}
 
 	@Override
 	public List<ClienteCuentaProjection> findCuentasByIdPersona(int id) {
-		// TODO Auto-generated method stub
-		return clienteRepository.findCuentasByIdPersona(id);
+
+		Optional<List<ClienteCuentaProjection>> result=clienteRepository.findCuentasByIdPersona(id);
+		
+		System.out.println("size lista: "+result.get().size());
+		List<ClienteCuentaProjection> lista = null;
+		if(result.get().size()<1) {
+			throw new ClienteNotFound("No se encontro el cliente :"+id);
+		}else {
+			lista = result.get();
+		}
+		return lista;
 	}
 
 	@Override
 	public List<Cliente> findAll() {
-		// TODO Auto-generated method stub
 		return clienteRepository.findAll();
 	}
 
 	@Override
 	public void actualizaCliente(int id,String nombre,String genero,String identificacion,String telefono,int edad,String pass) {
-		// TODO Auto-generated method stub
 		clienteRepository.actualizaCliente(id, nombre,genero,identificacion,telefono,edad,pass);
 	}
 
+	@Override
+	public Cliente findByIdPersonaCliente(int id) {
+		Optional<Cliente> result = clienteRepository.findByIdPersonaCliente(id);
+		
+		Cliente cliente=null;
+		if(result.isPresent()) {
+			cliente = result.get();
+		}else {
+			throw new ClienteNotFound("No se hallo cliente "+id);
+		}
+		return cliente;
+	}
+
 }
+

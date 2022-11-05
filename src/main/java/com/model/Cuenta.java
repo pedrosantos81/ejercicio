@@ -44,6 +44,7 @@ public class Cuenta implements Serializable{
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,optional = true)
 	@JoinColumn(name="id_cliente",referencedColumnName = "IdCliente")
+	@JsonIgnore
 	private Cliente clientes;
 	
 	@OneToMany(mappedBy="cuentas")

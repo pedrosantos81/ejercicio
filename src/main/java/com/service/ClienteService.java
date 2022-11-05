@@ -16,6 +16,7 @@ public interface ClienteService {
 	List<ClienteProjection> getNombreClienteProjection();
 	Cliente findById(int id);
 	Cliente findByIdPersona(int id);
+	Cliente findByIdPersonaCliente(int id);
 	List<ClienteCuentaProjection> findCuentasByIdPersona(int id);
 	List<Cliente> findAll();
 	void actualizaCliente(int id,String nombre,String genero,String identificacion,String telefono,int edad,String pass);
