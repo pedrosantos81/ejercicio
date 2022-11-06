@@ -64,6 +64,7 @@ public class ClienteController {
 		
 		System.out.println("cliente: "+clienteDto.toString());
 		Cliente clienteRequest = modelMapper.map(clienteDto, Cliente.class);
+		clienteRequest.setEstado(true);
 
 		Cliente post = clienteService.createCliente(clienteRequest);
 
