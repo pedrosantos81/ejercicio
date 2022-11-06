@@ -21,14 +21,12 @@ public class PersonaServiceImpl implements PersonaService{
 
 	@Override
 	public List<Persona> listaPersonas() {
-		// TODO Auto-generated method stub
 		return personaRepository.findAll();
 	}
 
 
 	@Override
 	public Persona findById(int id) {
-		// TODO Auto-generated method stub
 		Optional<Persona> result = personaRepository.findById(id);
 		
 		Persona persona=null;
@@ -43,21 +41,12 @@ public class PersonaServiceImpl implements PersonaService{
 
 	@Override
 	public void deletePersona(long id) {
-		// TODO Auto-generated method stub
 		personaRepository.deletePersona(id);
 	}
 
 	@Override
 	public Persona updatePersona(Persona p) {
-		// TODO Auto-generated method stub
 		return personaRepository.save(p);
 	}
-	
-	
-	
-
-	
-	
-	
 
 }

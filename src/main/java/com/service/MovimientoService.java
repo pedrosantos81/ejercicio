@@ -9,7 +9,6 @@ import com.model.Movimientos;
 public interface MovimientoService {
 	
    Movimientos save(Movimientos movimiento);
-   List<Movimientos> getMovimientos(int id);
    List<ClienteCuentaMovimientosProjection> getMovimientosAll();
    List<ClienteCuentaMovimientosProjection> findMovmientoByClienteyFecha(int id,Date startDate,Date endDate);
    

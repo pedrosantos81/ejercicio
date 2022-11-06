@@ -28,72 +28,69 @@ import com.service.CuentaService;
 import com.service.MovimientoService;
 import com.utils.Utilerias;
 
-@CrossOrigin(origins = "*",maxAge = 3600,allowedHeaders = "*")
+@CrossOrigin(origins = "*", maxAge = 3600, allowedHeaders = "*")
 @RestController
 public class MovimientoController {
-	
+
 	@Autowired
 	CuentaService cuentaService;
-	
+
 	@Autowired
 	ClienteService clienteService;
-	
+
 	@Autowired
 	MovimientoService movimientoService;
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
-	
-	
+
 	@GetMapping("movimientos")
-	public List<ClienteCuentaMovimientosProjection> findAllMovimientos(){
+	public List<ClienteCuentaMovimientosProjection> findAllMovimientos() {
 		return movimientoService.getMovimientosAll();
 	}
-	
+
 	@GetMapping("movimientos/{id}/{startDate}/{endDate}")
-	public List<ClienteCuentaMovimientosProjection> findAllMovimientos(@PathVariable("id") int id,@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate){
-		
-		System.out.println(startDate.toString()+"-"+endDate.toString());
-		
+	public List<ClienteCuentaMovimientosProjection> findAllMovimientos(@PathVariable("id") int id,
+			@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+			@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
+		System.out.println(startDate.toString() + "-" + endDate.toString());
 		return movimientoService.findMovmientoByClienteyFecha(id, startDate, endDate);
 	}
-	
-	@PostMapping("crearmovimiento")
-	public ResponseEntity<MovimientoDTO> saveMovimiento(@RequestBody MovimientoDTO movimientoDto){
-		
+
+	@PostMapping("movimientos")
+	public ResponseEntity<MovimientoDTO> saveMovimiento(@RequestBody MovimientoDTO movimientoDto) {
+
 		Cliente cliente = clienteService.findByIdPersona(movimientoDto.getId());
-	
-		
-		Cuenta cuenta = cuentaService.getCuentaByClienteTipoCuenta(cliente.getIdcliente(), movimientoDto.getTipoCuenta());
-		
+		Cuenta cuenta = cuentaService.getCuentaByClienteTipoCuenta(cliente.getIdcliente(),
+				movimientoDto.getTipoCuenta());
+
 		Movimientos movimientos = null;
-		
-		
-		
-		if(movimientoDto.getTipoTransaccion()==TipoTransaccion.ABONO) {
-			
-			movimientos = new Movimientos(movimientoDto.getTipoTransaccion().toString() +" a cuenta "+movimientoDto.getValor(),movimientoDto.getValor(),cuenta.getSaldoinicial());
+
+		if (movimientoDto.getTipoTransaccion() == TipoTransaccion.ABONO) {
+
+			movimientos = new Movimientos(
+					movimientoDto.getTipoTransaccion().toString() + " a cuenta " + movimientoDto.getValor(),
+					movimientoDto.getValor(), cuenta.getSaldoinicial());
 			cuenta.addMovimiento(movimientos);
-			cuenta.setSaldoinicial(cuenta.getSaldoinicial()+movimientoDto.getValor());
-			
-			
-			
-			
-		}else if(movimientoDto.getTipoTransaccion()==TipoTransaccion.RETIRO) {
-			
-			if(cuenta.getSaldoinicial()<movimientoDto.getValor()) {
+			cuenta.setSaldoinicial(cuenta.getSaldoinicial() + movimientoDto.getValor());
+
+		} else if (movimientoDto.getTipoTransaccion() == TipoTransaccion.RETIRO) {
+
+			if (cuenta.getSaldoinicial() < movimientoDto.getValor()) {
 				throw new ManejoCuentaExcepcion("Fondos insuficientes o la cantidad a retirar excede");
-			}else if(cuenta.getSaldoinicial()>=movimientoDto.getValor()) {
-				movimientos =new Movimientos(movimientoDto.getTipoTransaccion().toString()+" a cuenta "+movimientoDto.getValor(),movimientoDto.getValor(),cuenta.getSaldoinicial());
-			cuenta.addMovimiento(movimientos);	
-			cuenta.setSaldoinicial(cuenta.getSaldoinicial()-movimientoDto.getValor());
-			
+			} else if (cuenta.getSaldoinicial() >= movimientoDto.getValor()) {
+				movimientos = new Movimientos(
+						movimientoDto.getTipoTransaccion().toString() + " a cuenta " + movimientoDto.getValor(),
+						movimientoDto.getValor(), cuenta.getSaldoinicial());
+				cuenta.addMovimiento(movimientos);
+				cuenta.setSaldoinicial(cuenta.getSaldoinicial() - movimientoDto.getValor());
+
 			}
-			
+
 		}
-		
+
 		Movimientos movpost = movimientoService.save(movimientos);
-		
+
 		// convert entity to DTO
 		MovimientoDTO postResponse = new MovimientoDTO();
 		postResponse.setId(movpost.getCuentas().getClientes().getId());
@@ -102,9 +99,8 @@ public class MovimientoController {
 		postResponse.setValor(movimientoDto.getValor());
 		postResponse.setSaldoaldia(cuenta.getSaldoinicial());
 
-			return new ResponseEntity<MovimientoDTO>(postResponse, HttpStatus.CREATED);
+		return new ResponseEntity<MovimientoDTO>(postResponse, HttpStatus.CREATED);
 
 	}
-	
 
 }

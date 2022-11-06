@@ -34,32 +34,27 @@ public class ClienteServiceImpl implements ClienteService{
 
 	@Override
 	public List<Cliente> listarTodos() {
-		// TODO Auto-generated method stub
 		return clienteRepository.findAll();
 	}
 
 
 	@Override
 	public List<Cliente> getNombreCliente() {
-		// TODO Auto-generated method stub
 		return clienteRepository.getNombreCliente();
 	}
 
 	@Override
 	public Cliente createCliente(Cliente cliente) {
-		// TODO Auto-generated method stub
 		return clienteRepository.save(cliente);
 	}
 	
 	@Override
 	public Cliente updateCliente(int id,Cliente cliente) {
-		// TODO Auto-generated method stub
 		
 		Cliente post = null;
 		try {
 			post = clienteRepository.findByIdPersona(id).orElseThrow(()->new ClienteNotFound("Cliente no encontrado "));
 					
-			
 			post.setNombre(cliente.getNombre());
 			post.setGenero(cliente.getGenero());
 			post.setTelefono(cliente.getTelefono());
@@ -74,23 +69,17 @@ public class ClienteServiceImpl implements ClienteService{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 		return clienteRepository.save(post);
-		
-		//return clienteRepository.saveAndFlush(cliente);
 	}
 
 	@Override
 	public List<ClienteProjection> getNombreClienteProjection() {
-		// TODO Auto-generated method stub
 		return clienteRepository.getNombreClienteProjection();
 	}
 
 
 	@Override
 	public Cliente findById(int id) {
-		// TODO Auto-generated method stub
 		Optional<Cliente> result = clienteRepository.findById(id);
 		
 		Cliente cliente = null;
@@ -105,14 +94,12 @@ public class ClienteServiceImpl implements ClienteService{
 
 	@Override
 	public void delete(int id) {
-		// TODO Auto-generated method stub
 		clienteRepository.delete(id);
 	}
 
 
 	@Override
 	public Cliente findByIdPersona(int id) {
-		// TODO Auto-generated method stub
 		Optional<Cliente> result = clienteRepository.findByIdPersona(id);
 		
 		Cliente cliente = null;
@@ -129,7 +116,6 @@ public class ClienteServiceImpl implements ClienteService{
 
 		Optional<List<ClienteCuentaProjection>> result=clienteRepository.findCuentasByIdPersona(id);
 		
-		System.out.println("size lista: "+result.get().size());
 		List<ClienteCuentaProjection> lista = null;
 		if(result.get().size()<1) {
 			throw new ClienteNotFound("No se encontro el cliente :"+id);

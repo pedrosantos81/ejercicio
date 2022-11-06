@@ -16,47 +16,36 @@ import com.model.Movimientos;
 public class MovimientosServiceImpl implements MovimientoService {
 
 	MovimientoRepository movimientoRepository;
-	
+
 	ModelMapper modelMapper;
-	
+
 	@Autowired
-	public MovimientosServiceImpl(MovimientoRepository movimientoRepository,ModelMapper modelMapper) {
-       super();
-       this.movimientoRepository = movimientoRepository;
-       this.modelMapper = modelMapper;
-    }
-	
+	public MovimientosServiceImpl(MovimientoRepository movimientoRepository, ModelMapper modelMapper) {
+		this.movimientoRepository = movimientoRepository;
+		this.modelMapper = modelMapper;
+	}
+
 	@Override
 	public Movimientos save(Movimientos movimiento) {
-		// TODO Auto-generated method stub
 		return movimientoRepository.save(movimiento);
 	}
 
 	@Override
-	public List<Movimientos> getMovimientos(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<ClienteCuentaMovimientosProjection> getMovimientosAll() {
-		// TODO Auto-generated method stub
 		return movimientoRepository.getMovimientosAll();
 	}
 
 	@Override
-	public List<ClienteCuentaMovimientosProjection> findMovmientoByClienteyFecha(int id, Date startDate,
-			Date endDate) {
-		// TODO Auto-generated method stub
-		List<ClienteCuentaMovimientosProjection> lstclienteMovimientos = movimientoRepository.findMovmientoByClienteyFecha(id, startDate, endDate);
-		
-		if(lstclienteMovimientos.isEmpty()) {
+	public List<ClienteCuentaMovimientosProjection> findMovmientoByClienteyFecha(int id, Date startDate, Date endDate) {
+
+		List<ClienteCuentaMovimientosProjection> lstclienteMovimientos = movimientoRepository
+				.findMovmientoByClienteyFecha(id, startDate, endDate);
+
+		if (lstclienteMovimientos.isEmpty()) {
 			throw new ManejoCuentaExcepcion("No tiene movimientos la cuenta");
 		}
-		
+
 		return lstclienteMovimientos;
 	}
-
-	
 
 }

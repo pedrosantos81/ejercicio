@@ -14,6 +14,7 @@ public interface ClienteCuentaMovimientosProjection {
 	double getSaldoinicial();
 	double getMovimiento();
 	double getSaldodisponible();
+	boolean getEstado();
 	
 
 }

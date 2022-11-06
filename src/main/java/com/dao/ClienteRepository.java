@@ -44,7 +44,6 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
 	
 	static String queryBajaCliente="update Cliente c set c.estado=0 where c.idpersona=:id";
 	
-	//@Query(value="select c from Cliente c")
 	@Query(queryStr1)
 	public List<Cliente> getNombreCliente();
 	

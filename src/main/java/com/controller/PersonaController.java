@@ -29,13 +29,6 @@ public class PersonaController {
 	public List<Persona> recuperaPersonas(){
 		return service.listaPersonas();
 	}
-
-//	@GetMapping(value="persona/{id}",produces=MediaType.APPLICATION_JSON_VALUE)
-//	public Persona getById(@PathVariable("id") long id){
-//		
-//		System.out.println(service.findById(id).getIdentificacion());
-//		return service.findById(id);
-//	}
 	
 	@GetMapping("persona/{id}")
     public ResponseEntity<Persona> getById(@PathVariable int id) {
@@ -51,7 +44,6 @@ public class PersonaController {
 	public ResponseEntity<Persona> updatePersona(@RequestBody Persona p){
 		
 		Persona personaupdating = null;
-		
 		personaupdating = service.findById(p.getId());
 				
 				
@@ -66,12 +58,10 @@ public class PersonaController {
 			personaupdating.setIdentificacion(p.getIdentificacion());
 			personaupdating.setTelefono(p.getTelefono());
 			
-			
 			service.updatePersona(personaupdating);
 		}
 		
 		return ResponseEntity.ok(personaupdating);
 	}
-	
 	
 }

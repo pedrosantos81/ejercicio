@@ -38,10 +38,9 @@ public class CuentaController {
 		return cuentaService.findAllClienteCuentas();
 	}
 	
-	@PostMapping("createcuenta")
+	@PostMapping("cuentas")
 	public ResponseEntity<CuentaDTO> createCuenta(@RequestBody CuentaDTO cuentaDto) {
 		
-		System.out.println(cuentaDto);
 		Cuenta cuentaRequest,post;
 		
 		Cliente clienteobj = clienteService.findById(cuentaDto.getIdcliente());
@@ -56,11 +55,8 @@ public class CuentaController {
 			cuentaDto.getTipocuenta();
 			cuentaRequest = new Cuenta(TipoCuenta.valueOf(cuentaDto.getTipocuenta()),cuentaDto.getSaldoinicial(),cuentaDto.isStatus());
 			cuentaRequest.setCliente(clienteobj);
-			//cuentaRequest = modelMapper.map(cuentaDto,Cuenta.class);
-			System.out.println("cuentarequest: "+cuentaRequest);
 			
 			post = cuentaService.save(cuentaRequest);
-			
 			
 			CuentaDTO cuentaResponse = new CuentaDTO();
 			
