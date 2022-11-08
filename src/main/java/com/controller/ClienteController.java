@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dto.ClienteCuentaProjection;
@@ -85,17 +86,27 @@ public class ClienteController {
 		return clienteService.findByIdPersonaCliente(id);
 	}
 
+//	@DeleteMapping("clientes/{id}")
+//	public ResponseEntity<Object> deletePost(@PathVariable("id") int id) {
+//
+//		Cliente cliente = clienteService.findByIdPersona(id);
+//
+//		if (cliente == null) {
+//			return new ResponseEntity<>("Cliente" + id + "not found", HttpStatus.NOT_FOUND);
+//		} else {
+//			clienteService.delete(id);
+//			return new ResponseEntity<>("Cliente dado de baja", HttpStatus.NO_CONTENT);
+//		}
+//	}
+	
 	@DeleteMapping("clientes/{id}")
-	public ResponseEntity<Object> deletePost(@PathVariable("id") int id) {
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deletePost(@PathVariable("id") int id) {
 
 		Cliente cliente = clienteService.findByIdPersona(id);
 
-		if (cliente == null) {
-			return new ResponseEntity<>("Cliente" + id + "not found", HttpStatus.NOT_FOUND);
-		} else {
-			clienteService.delete(id);
-			return new ResponseEntity<>("Cliente dado de baja", HttpStatus.OK);
-		}
+		clienteService.delete(cliente.getId());
+
 	}
 
 	@PutMapping("clientes/{id}")

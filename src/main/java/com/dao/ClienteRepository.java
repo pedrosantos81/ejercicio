@@ -20,7 +20,8 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
 	static String queryStr1="SELECT new Cliente(S.idpersona,p.nombre,p.telefono,S.direccion,S.pass,S.estado)"
 			+ "FROM Cliente S join Persona p on S.idpersona=p.id";
 			
-	static String queryStr3="select p.nombre as nombre,"
+	static String queryStr3="select p.id as id,"
+			+ "p.nombre as nombre,"
 			+ "p.telefono as telefono, "
 			+ "p.direccion as direccion,"
 			+ "S.estado as estado,S.pass as pass "

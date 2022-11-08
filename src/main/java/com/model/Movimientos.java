@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -26,6 +27,7 @@ public class Movimientos {
 	
 	@Column(name="fecha",nullable = false, updatable = false)
 	@CreationTimestamp
+	//@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd MMM yyyy HH:mm:ss")
 	private Date fecha;
 	
 	@Column(name="tipomovimiento")

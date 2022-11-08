@@ -1,22 +1,17 @@
 package com.example.demo;
 
-import java.util.Optional;
+import java.util.Date;
+import java.util.TimeZone;
+
+import javax.annotation.PostConstruct;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-
-import com.dao.ClienteRepository;
-import com.dao.CuentaRepository;
-import com.model.Cliente;
-import com.model.Cuenta;
-import com.model.Status;
-import com.model.TipoCuenta;
 
 @SpringBootApplication
 @ComponentScan(basePackages= {"com.controller","com.dao","com.model","com.service","com.dto","com.excepcion"})
@@ -29,6 +24,11 @@ public class EjercicioApplication {
 		return new ModelMapper();
 	}
 	
+	@PostConstruct
+    public void init(){
+        TimeZone.setDefault(TimeZone.getTimeZone("America/Mexico_City"));   // It will set UTC timezone
+        System.out.println("Spring boot application running in timezone :"+new Date());   // It will print UTC timezone
+    }
 	
 	public static void main(String[] args) {
 		SpringApplication.run(EjercicioApplication.class, args);
