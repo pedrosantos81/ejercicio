@@ -27,7 +27,7 @@ public class Movimientos {
 	
 	@Column(name="fecha",nullable = false, updatable = false)
 	@CreationTimestamp
-	//@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd MMM yyyy HH:mm:ss")
+	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd MMM yyyy HH:mm:ss")
 	private Date fecha;
 	
 	@Column(name="tipomovimiento")

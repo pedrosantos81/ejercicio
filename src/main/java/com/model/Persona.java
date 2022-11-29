@@ -10,6 +10,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 
 
@@ -23,22 +25,28 @@ public abstract class Persona {
 	@Column(name="id")
 	private int id;
 	
-	@Column(name="nombre")
+	@NotEmpty
+	@Column(name="nombre",nullable=false)
+	@Size(min = 4)
 	private String nombre;
 	
-	@Column(name="genero")
+	@NotEmpty
+	@Column(name="genero",nullable=false)
 	private String genero;
 	
-	@Column(name="edad")
+	@Column(name="edad",nullable=false)
 	private int edad;
 	
-	@Column(name="identificacion")
+	@NotEmpty(message="no puede estar vacio")
+	@Column(name="identificacion",nullable=false)
 	private String identificacion;
 	
-	@Column(name="direccion")
+	@NotEmpty
+	@Column(name="direccion",nullable=false)
 	private String direccion;
 	
-	@Column(name="telefono")
+	@NotEmpty
+	@Column(name="telefono",nullable=false)
 	private String telefono;
 	
 	@OneToOne(mappedBy="persona",cascade = CascadeType.ALL)

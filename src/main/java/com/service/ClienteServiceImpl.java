@@ -49,27 +49,27 @@ public class ClienteServiceImpl implements ClienteService{
 	}
 	
 	@Override
-	public Cliente updateCliente(int id,Cliente cliente) {
+	public Cliente updateCliente(Cliente cliente) {
 		
-		Cliente post = null;
-		try {
-			post = clienteRepository.findByIdPersona(id).orElseThrow(()->new ClienteNotFound("Cliente no encontrado "));
-					
-			post.setNombre(cliente.getNombre());
-			post.setGenero(cliente.getGenero());
-			post.setTelefono(cliente.getTelefono());
-			post.setDireccion(cliente.getDireccion());
-			post.setEdad(cliente.getEdad());
-			post.setEstado(true);
-			post.setPass(cliente.getPass());
-			post.setIdentificacion(cliente.getIdentificacion());
-			
-			
-		} catch (ClienteNotFound e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return clienteRepository.save(post);
+//		Cliente post = null;
+//		try {
+//			post = clienteRepository.findByIdPersona(id).orElseThrow(()->new ClienteNotFound("Cliente no encontrado "));
+//					
+//			post.setNombre(cliente.getNombre());
+//			post.setGenero(cliente.getGenero());
+//			post.setTelefono(cliente.getTelefono());
+//			post.setDireccion(cliente.getDireccion());
+//			post.setEdad(cliente.getEdad());
+//			post.setEstado(true);
+//			post.setPass(cliente.getPass());
+//			post.setIdentificacion(cliente.getIdentificacion());
+//			
+//			
+//		} catch (ClienteNotFound e) {
+//			// TODO Auto-generated catch block
+//		    e.printStackTrace();
+//		}
+		return clienteRepository.save(cliente);
 	}
 
 	@Override

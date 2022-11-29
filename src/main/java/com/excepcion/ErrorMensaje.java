@@ -4,11 +4,13 @@ public class ErrorMensaje {
 
 	private int status;
 	private String message;
+	private String error;
 	
-	public ErrorMensaje(int status, String message) {
+	public ErrorMensaje(int status, String message,String error) {
 		super();
 		this.status = status;
 		this.message = message;
+		this.error = error;
 	}
 
 	public int getStatus() {
@@ -25,6 +27,14 @@ public class ErrorMensaje {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public String getError() {
+		return error;
+	}
+
+	public void setError(String error) {
+		this.error = error;
 	}
 
 }

@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -36,7 +37,8 @@ public class Cliente extends Persona implements Serializable{
 	@Column(name="IdCliente")
 	private int idcliente;
 	
-	@Column(name="contrasena")
+	@Column(name="contrasena",nullable=false)
+	@NotEmpty(message="no puede estar vacio")
 	private String pass;
 	
 	@Column(name="estado",columnDefinition = "boolean default true")

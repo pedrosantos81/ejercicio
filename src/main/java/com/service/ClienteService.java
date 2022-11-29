@@ -12,7 +12,7 @@ public interface ClienteService {
 	public abstract List<Cliente> listarTodos();
 	public abstract List<Cliente> getNombreCliente();
 	Cliente createCliente(Cliente cliente);
-	Cliente updateCliente(int id,Cliente cliente);
+	Cliente updateCliente(Cliente cliente);
 	List<ClienteProjection> getNombreClienteProjection();
 	Cliente findById(int id);
 	Cliente findByIdPersona(int id);
