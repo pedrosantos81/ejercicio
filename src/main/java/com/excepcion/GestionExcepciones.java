@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.validation.ConstraintViolation;
@@ -13,6 +14,7 @@ import javax.validation.ConstraintViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -108,10 +110,23 @@ public class GestionExcepciones extends ResponseEntityExceptionHandler {
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		// TODO Auto-generated method stub
 
-		String str = ex.getBindingResult().getFieldErrors().stream()
-				.map(err -> err.getField() + " " + err.getDefaultMessage()).collect(Collectors.joining("; "));
-		// return super.handleMethodArgumentNotValid(ex, headers, status, request);
-		return new ResponseEntity<Object>(new ErrorMensaje(HttpStatus.BAD_REQUEST.value(), str, "Error al actualizar la bd"),
+		Map<String, Object> response = new HashMap<>();
+		List<String> errors = ex.getBindingResult().getFieldErrors().stream()
+				.map(err -> "El campo '"+ err.getField() + " " + err.getDefaultMessage()).collect(Collectors.toList());
+		
+//		Map<String, String> transformedError = null;
+//		List<Map<String, String>> errors = new ArrayList<>();
+//		
+//		for (FieldError result: ex.getBindingResult().getFieldErrors()) {
+//			LOGGER.info(result.getField()+"  "+result.getDefaultMessage());
+//			transformedError = new HashMap<>();
+//			transformedError.put("errors", result.getField()+"  "+result.getDefaultMessage());
+//			errors.add(transformedError);
+//		}
+		
+		response.put("errors", errors);
+		
+		return new ResponseEntity<Object>(new ErrorMensaje(HttpStatus.BAD_REQUEST.value(), response, "Error al actualizar la bd"),
 				HttpStatus.BAD_REQUEST);
 	}
 

@@ -1,16 +1,27 @@
 package com.excepcion;
 
+import java.util.List;
+import java.util.Map;
+
 public class ErrorMensaje {
 
 	private int status;
 	private String message;
 	private String error;
+	private Map<String,Object> listaerrores;
 	
 	public ErrorMensaje(int status, String message,String error) {
 		super();
 		this.status = status;
 		this.message = message;
 		this.error = error;
+	}
+	
+	public ErrorMensaje(int status, Map<String,Object> listaerrores,String error) {
+		super();
+		this.status = status;
+		this.error = error;
+		this.listaerrores=listaerrores;
 	}
 
 	public int getStatus() {
@@ -35,6 +46,14 @@ public class ErrorMensaje {
 
 	public void setError(String error) {
 		this.error = error;
+	}
+
+	public Map<String, Object> getListaerrores() {
+		return listaerrores;
+	}
+
+	public void setListaerrores(Map<String, Object> listaerrores) {
+		this.listaerrores = listaerrores;
 	}
 
 }
