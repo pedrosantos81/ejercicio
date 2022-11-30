@@ -27,7 +27,7 @@ public abstract class Persona {
 	
 	@NotEmpty
 	@Column(name="nombre",nullable=false)
-	@Size(min = 4)
+	@Size(min = 4,message="El tamaño debe ser mayor a 4 caracteres")
 	private String nombre;
 	
 	@NotEmpty

@@ -8,12 +8,14 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -114,6 +117,7 @@ public class GestionExcepciones extends ResponseEntityExceptionHandler {
 		List<String> errors = ex.getBindingResult().getFieldErrors().stream()
 				.map(err -> "El campo '"+ err.getField() + " " + err.getDefaultMessage()).collect(Collectors.toList());
 		
+		String typeRequest="";
 //		Map<String, String> transformedError = null;
 //		List<Map<String, String>> errors = new ArrayList<>();
 //		
@@ -123,11 +127,29 @@ public class GestionExcepciones extends ResponseEntityExceptionHandler {
 //			transformedError.put("errors", result.getField()+"  "+result.getDefaultMessage());
 //			errors.add(transformedError);
 //		}
+		LOGGER.info(((ServletWebRequest) request).getHttpMethod().toString());
+		if(((ServletWebRequest) request).getHttpMethod().toString().equals("POST")) {
+			typeRequest = "Error al realizar el insert en la base de datos";
+		}else if(((ServletWebRequest) request).getHttpMethod().toString().equals("PUT")) {
+			typeRequest = "Error al actualizar en la base de datos";
+		}
 		
 		response.put("errors", errors);
 		
-		return new ResponseEntity<Object>(new ErrorMensaje(HttpStatus.BAD_REQUEST.value(), response, "Error al actualizar la bd"),
+		return new ResponseEntity<Object>(new ErrorMensaje(HttpStatus.BAD_REQUEST.value(), response, typeRequest),
 				HttpStatus.BAD_REQUEST);
 	}
+
+	@Override
+	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		// TODO Auto-generated method stub
+		//return super.handleHttpMessageNotReadable(ex, headers, status, request);
+		ErrorMensaje errormsg = new ErrorMensaje(HttpStatus.NOT_ACCEPTABLE.value(),ex.getHttpInputMessage().toString(),ex.getLocalizedMessage());
+		
+		return new ResponseEntity<Object>(errormsg,HttpStatus.NOT_ACCEPTABLE);
+	}
+	
+	
 
 }
