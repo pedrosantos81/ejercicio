@@ -10,6 +10,9 @@ import javax.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -60,6 +63,14 @@ public class ClienteController {
 
 		return clienteService.getNombreCliente().stream().map(post -> modelMapper.map(post, ClientesDTO.class))
 				.collect(Collectors.toList());
+	}
+	
+	@GetMapping("/clientes/page/{page}")
+	public Page<Cliente> findAll(@PathVariable Integer page){
+		//es lo mismo
+//		Pageable paging = PageRequest.of(page, 5);
+//		return clienteService.findAll(paging);
+		return clienteService.findAll(PageRequest.of(page, 7));
 	}
 
 //	@PostMapping("clientes")

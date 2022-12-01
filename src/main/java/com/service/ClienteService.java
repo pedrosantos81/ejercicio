@@ -1,6 +1,10 @@
 package com.service;
 
+
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.dto.ClienteCuentaProjection;
 import com.dto.ClienteProjection;
@@ -19,6 +23,7 @@ public interface ClienteService {
 	Cliente findByIdPersonaCliente(int id);
 	List<ClienteCuentaProjection> findCuentasByIdPersona(int id);
 	List<Cliente> findAll();
+	Page<Cliente> findAll(Pageable pageable);
 	void actualizaCliente(int id,String nombre,String genero,String identificacion,String telefono,int edad,String pass);
 	void delete(int id);
 	
