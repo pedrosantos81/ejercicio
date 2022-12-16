@@ -4,21 +4,21 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.dao.ClienteRepository;
 import com.dto.ClienteCuentaProjection;
 import com.dto.ClienteProjection;
-import com.dto.ClientesDTO;
 import com.excepcion.ClienteNotFound;
-
 import com.model.Cliente;
-
-import com.utils.ClienteConverter;
+import com.model.TipoIdentificacion;
 
 @Service
 public class ClienteServiceImpl implements ClienteService{
@@ -40,10 +40,10 @@ public class ClienteServiceImpl implements ClienteService{
 	}
 
 
-	@Override
-	public List<Cliente> getNombreCliente() {
-		return clienteRepository.getNombreCliente();
-	}
+//	@Override
+//	public List<Cliente> getNombreCliente() {
+//		return clienteRepository.getNombreCliente();
+//	}
 
 	@Override
 	public Cliente createCliente(Cliente cliente) {
@@ -134,7 +134,7 @@ public class ClienteServiceImpl implements ClienteService{
 
 	@Override
 	public void actualizaCliente(int id,String nombre,String genero,String identificacion,String telefono,int edad,String pass) {
-		clienteRepository.actualizaCliente(id, nombre,genero,identificacion,telefono,edad,pass);
+		//clienteRepository.actualizaCliente(id, nombre,genero,identificacion,telefono,edad,pass);
 	}
 
 	@Override
@@ -154,6 +154,12 @@ public class ClienteServiceImpl implements ClienteService{
 	public Page<Cliente> findAll(Pageable pageable) {
 		// TODO Auto-generated method stub
 		return clienteRepository.findAll(pageable);
+	}
+
+	@Override
+	@Transactional
+	public List<TipoIdentificacion> findAllTipoIdentificacion() {
+		return clienteRepository.findAllTipoIdentificacion();
 	}
 
 }

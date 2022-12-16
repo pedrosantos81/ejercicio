@@ -3,15 +3,25 @@ package com.model;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 
@@ -30,16 +40,21 @@ public abstract class Persona {
 	@Size(min = 4,message="El tamaño debe ser mayor a 4 caracteres")
 	private String nombre;
 	
-	@NotEmpty
+//	@NotEmpty
+//	@Column(name="genero",nullable=false)
+//	private String genero;
+	
+	@Enumerated(EnumType.STRING)
+	@NotNull(message="no puede ser vacia")
 	@Column(name="genero",nullable=false)
-	private String genero;
+	private Genero genero;
 	
 	@Column(name="edad",nullable=false)
 	private int edad;
 	
-	@NotEmpty(message="no puede estar vacio")
-	@Column(name="identificacion",nullable=false)
-	private String identificacion;
+//	@NotEmpty(message="no puede estar vacio")
+//	@Column(name="identificacion",nullable=false,insertable = false,updatable = false)
+//	private int identificacion;
 	
 	@NotEmpty
 	@Column(name="direccion",nullable=false)
@@ -51,6 +66,14 @@ public abstract class Persona {
 	
 	@OneToOne(mappedBy="persona",cascade = CascadeType.ALL)
 	private Cliente cliente;
+	
+	
+	@NotNull(message="no puede ser vacia")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="identificacion",referencedColumnName = "id_tipoidenficacion")
+	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+	//@Transient// Esto lo ignora del json no lo muestra
+	TipoIdentificacion tipoIdentificacion;
 	
 	public Cliente getCliente() {
 		return cliente;
@@ -64,14 +87,15 @@ public abstract class Persona {
 		
 	}
 	
-	public Persona(String nombre, String genero, int edad, String identificacion, String direccion, String telefono) {
-		this.nombre = nombre;
-		this.genero = genero;
-		this.edad = edad;
-		this.identificacion = identificacion;
-		this.direccion = direccion;
-		this.telefono = telefono;
-	}
+	//@JsonCreator
+//	public Persona(String nombre, String genero, int edad, TipoIdentificacion identificacion, String direccion, String telefono) {
+//		this.nombre = nombre;
+//		this.genero = genero;
+//		this.edad = edad;
+//		this.tipoIdentificacion = identificacion;
+//		this.direccion = direccion;
+//		this.telefono = telefono;
+//	}
 
 	public int getId() {
 		return id;
@@ -89,28 +113,12 @@ public abstract class Persona {
 		this.nombre = nombre;
 	}
 
-	public String getGenero() {
-		return genero;
-	}
-
-	public void setGenero(String genero) {
-		this.genero = genero;
-	}
-
 	public int getEdad() {
 		return edad;
 	}
 
 	public void setEdad(int edad) {
 		this.edad = edad;
-	}
-
-	public String getIdentificacion() {
-		return identificacion;
-	}
-
-	public void setIdentificacion(String identificacion) {
-		this.identificacion = identificacion;
 	}
 
 	public String getDireccion() {
@@ -129,12 +137,26 @@ public abstract class Persona {
 		this.telefono = telefono;
 	}
 
+	public TipoIdentificacion getTipoIdentificacion() {
+		return tipoIdentificacion;
+	}
+
+	public void setTipoIdentificacion(TipoIdentificacion tipoIdentificacion) {
+		this.tipoIdentificacion = tipoIdentificacion;
+	}
+	
+	public Genero getGenero() {
+		return genero;
+	}
+
+	public void setGenero(Genero genero) {
+		this.genero = genero;
+	}
+	
 	@Override
 	public String toString() {
 		return "Persona [id=" + id + ", nombre=" + nombre + ", genero=" + genero + ", edad=" + edad
-				+ ", identificacion=" + identificacion + ", direccion=" + direccion + ", telefono=" + telefono + "]";
+				+ ", identificacion=" + tipoIdentificacion.getIdidentificacion() + ", direccion=" + direccion + ", telefono=" + telefono + "]";
 	}
-	
-	
 
 }

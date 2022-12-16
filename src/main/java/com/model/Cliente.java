@@ -51,7 +51,6 @@ public class Cliente extends Persona implements Serializable{
 	@JoinColumn(name="IdPersona",insertable = false,updatable = false)
 	@JsonIgnore
 	Persona persona;
-
 	
 	@OneToMany(mappedBy="clientes",fetch = FetchType.LAZY,orphanRemoval = true,cascade = CascadeType.ALL)
 	//@JsonManagedReference
@@ -62,20 +61,20 @@ public class Cliente extends Persona implements Serializable{
 	public Cliente() {
 	}
 
-	public Cliente(String nombre,String genero,int edad,String identificacion,
-			String direccion,String telefono, String pass, boolean estado) {
-		
-		super(nombre,genero,edad,identificacion,direccion,telefono);
-		this.pass = pass;
-		this.estado = estado;
-	}
+//	public Cliente(String nombre,String genero,int edad,TipoIdentificacion identificacion,
+//			String direccion,String telefono, String pass, boolean estado) {
+//		
+//		super(nombre,genero,edad,identificacion,direccion,telefono);
+//		this.pass = pass;
+//		this.estado = estado;
+//	}
 	
-	public Cliente(int idpersona,String nombre,String telefono,String pass,String direccion, boolean estado) {
-		super(nombre,"",0,"",direccion,telefono);
-		this.pass = pass;
-		this.estado = estado;
-		//this.idpersona=idpersona;
-	}
+//	public Cliente(int idpersona,String nombre,String telefono,String pass,String direccion, boolean estado) {
+//		super(nombre,"",0,TipoIdentificacion,direccion,telefono);
+//		this.pass = pass;
+//		this.estado = estado;
+//		//this.idpersona=idpersona;
+//	}
 
 	public int getIdcliente() {
 		return idcliente;

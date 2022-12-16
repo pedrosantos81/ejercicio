@@ -14,28 +14,29 @@ import org.springframework.data.repository.query.Param;
 import com.dto.ClienteCuentaProjection;
 import com.dto.ClienteProjection;
 import com.model.Cliente;
+import com.model.TipoIdentificacion;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
 
-	static String queryStr1="SELECT new Cliente(S.idpersona,p.nombre,p.telefono,S.direccion,S.pass,S.estado)"
-			+ "FROM Cliente S join Persona p on S.idpersona=p.id";
+//	static String queryStr1="SELECT new Cliente(S.idpersona,p.nombre,p.telefono,S.direccion,S.pass,S.estado)"
+//			+ "FROM Cliente S join Persona p on S.idpersona=p.id";
 			
 	static String queryStr3="select p.id as id,"
 			+ "p.nombre as nombre,"
 			+ "p.telefono as telefono, "
 			+ "p.direccion as direccion,"
 			+ "S.estado as estado,S.pass as pass "
-			+ "from Cliente S join Persona p on S.idpersona=p.id and S.estado=1";
+			+ "from Cliente S join Persona p on S.idpersona=p.id ";
 			
-	static String queryStr2="SELECT "
-			+ "S.idcliente,S.pass,S.estado,S.idPersona,"
-			+ "p.direccion,p.nombre,p.telefono,p.edad,p.identificacion,p.genero,p.id "
-			+ ""
-			+ "FROM Cliente S join Persona p on S.IdPersona=p.id";
+//	static String queryStr2="SELECT "
+//			+ "S.idcliente,S.pass,S.estado,S.idPersona,"
+//			+ "p.direccion,p.nombre,p.telefono,p.edad,p.identificacion,p.genero,p.id "
+//			+ ""
+//			+ "FROM Cliente S join Persona p on S.IdPersona=p.id";
 	
 	static String queryUpdaCliente ="update Cliente c set c.nombre=:nombre"
 			+ ", c.genero=:genero"
-			+ ", c.identificacion=:identificacion"
+			//+ ", c.identificacion=:identificacion"
 			+ ", c.direccion=:direcion"
 			+ ", c.telefono=:telefono"
 			+ ", c.edad=:edad"
@@ -45,8 +46,8 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
 	
 	static String queryBajaCliente="update Cliente c set c.estado=0 where c.idpersona=:id";
 	
-	@Query(queryStr1)
-	public List<Cliente> getNombreCliente();
+//	@Query(queryStr1)
+//	public List<Cliente> getNombreCliente();
 	
 	@Query(queryStr3)
 	public List<ClienteProjection> getNombreClienteProjection();
@@ -74,7 +75,8 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
     @Modifying
     @Transactional
     @Query(value = queryUpdaCliente)
-    void actualizaCliente(@Param("id") int id,@Param("nombre") String nombre,@Param("genero") String genero,@Param("nombre") String identificacion,
+    void actualizaCliente(@Param("id") int id,@Param("nombre") String nombre,@Param("genero") String genero,
+    		//@Param("nombre") String identificacion,
     		@Param("telefono") String telefono,
     		@Param("edad") int edad,
     		@Param("pass") String pass);
@@ -83,6 +85,9 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
     @Transactional
     @Query(queryBajaCliente)
     void delete(int id);
+    
+    @Query("from TipoIdentificacion")
+    public List<TipoIdentificacion> findAllTipoIdentificacion();
 
 	
 }

@@ -145,10 +145,14 @@ public class GestionExcepciones extends ResponseEntityExceptionHandler {
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		// TODO Auto-generated method stub
 		//return super.handleHttpMessageNotReadable(ex, headers, status, request);
+		Map<String, Object> response = new HashMap<>();
+		
 		ErrorMensaje errormsg = new ErrorMensaje(HttpStatus.NOT_ACCEPTABLE.value(),ex.getHttpInputMessage().toString(),ex.getLocalizedMessage());
 		
 		return new ResponseEntity<Object>(errormsg,HttpStatus.NOT_ACCEPTABLE);
 	}
+	
+	
 	
 	
 

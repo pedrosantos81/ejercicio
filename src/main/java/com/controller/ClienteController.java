@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dto.ClienteProjection;
 import com.dto.ClientesDTO;
 import com.model.Cliente;
+import com.model.TipoIdentificacion;
 import com.service.ClienteService;
 import com.service.PersonaService;
 
@@ -48,22 +49,22 @@ public class ClienteController {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	@GetMapping(value = "clientesaf", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<ClientesDTO> getClientes() {
-
-		List<Cliente> lst = clienteService.getNombreCliente();
-
-		for (Cliente p : lst) {
-			System.out.println("idpersona: " + p.getId() + ",nombre: " + p.getNombre() + ",tel: " + p.getTelefono()
-					+ ",pass: " + p.getPass() + ",addres: " + p.getDireccion());
-		}
-
-		System.out.println(clienteService.getNombreCliente().stream()
-				.map(post -> modelMapper.map(post, ClientesDTO.class)).collect(Collectors.toList()));
-
-		return clienteService.getNombreCliente().stream().map(post -> modelMapper.map(post, ClientesDTO.class))
-				.collect(Collectors.toList());
-	}
+//	@GetMapping(value = "clientesaf", produces = MediaType.APPLICATION_JSON_VALUE)
+//	public List<ClientesDTO> getClientes() {
+//
+//		List<Cliente> lst = clienteService.getNombreCliente();
+//
+//		for (Cliente p : lst) {
+//			System.out.println("idpersona: " + p.getId() + ",nombre: " + p.getNombre() + ",tel: " + p.getTelefono()
+//					+ ",pass: " + p.getPass() + ",addres: " + p.getDireccion());
+//		}
+//
+//		System.out.println(clienteService.getNombreCliente().stream()
+//				.map(post -> modelMapper.map(post, ClientesDTO.class)).collect(Collectors.toList()));
+//
+//		return clienteService.getNombreCliente().stream().map(post -> modelMapper.map(post, ClientesDTO.class))
+//				.collect(Collectors.toList());
+//	}
 	
 	@GetMapping("/clientes/page/{page}")
 	public Page<Cliente> findAll(@PathVariable Integer page){
@@ -178,7 +179,7 @@ public class ClienteController {
 			clienteActual.setEdad(cliente.getEdad());
 			clienteActual.setEstado(true);
 			clienteActual.setPass(cliente.getPass());
-			clienteActual.setIdentificacion(cliente.getIdentificacion());
+			clienteActual.setTipoIdentificacion(cliente.getTipoIdentificacion());
 			clientepost = clienteService.updateCliente(clienteActual);
 			
 		}catch(DataAccessException dexc) {
@@ -192,6 +193,11 @@ public class ClienteController {
 
 		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.CREATED);
 
+	}
+	
+	@GetMapping("/clientes/cat_identificaciones")
+	public List<TipoIdentificacion> getTipoIdentificacion(){
+		return clienteService.findAllTipoIdentificacion();
 	}
 
 }

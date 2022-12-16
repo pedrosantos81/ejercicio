@@ -55,7 +55,7 @@ public class PersonaController {
 			personaupdating.setEdad(p.getEdad());
 			personaupdating.setGenero(p.getGenero());
 			personaupdating.setNombre(p.getNombre());
-			personaupdating.setIdentificacion(p.getIdentificacion());
+			//personaupdating.setIdentificacion(p.getIdentificacion());
 			personaupdating.setTelefono(p.getTelefono());
 			
 			service.updatePersona(personaupdating);
